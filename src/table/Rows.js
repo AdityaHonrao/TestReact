@@ -1,14 +1,13 @@
 import React, {Fragment} from "react";
 
-export const ReadOnlyStudentRow =({student, handleEditClick, handleDelete}) => {
+export const ReadOnlyStudentRow =({student, handleEditClick, onDelete}) => {
         return(
             <tr key={student.id}>
                 <td>{student.id}</td>
                 <td>{student.name}</td>
                 <td>{student.college.collegeName}</td>
-                <td><button onClick={(event)=>handleEditClick(event, student)}>Edit</button> <button onClick={(event)=>handleDelete(event, student)}>Delete</button></td>
+                <td><button onClick={(event)=>handleEditClick(event, student)}>Edit</button> <button onClick={(event)=>onDelete(event, student)}>Delete</button></td>
             </tr>
-
         )
 
 }
@@ -44,12 +43,12 @@ export const EditableCollegeRow = ({college, onSave, onDelete, change}) => {
     )
 }
 
-export const ReadOnlyCollegeRow =({college, handleEditClick, handleDelete}) => {
+export const ReadOnlyCollegeRow =({college, handleEditClick, onDelete}) => {
     return(
         <tr key={college.id}>
             <td>{college.id}</td>
             <td>{college.collegeName}</td>
-            <td><button onClick={(event)=>handleEditClick(event, college)}>Edit</button> <button onClick={(event) => handleDelete(event, college)}>Delete</button></td>
+            <td><button onClick={(event)=>handleEditClick(event, college)}>Edit</button> <button onClick={(event) => onDelete(event, college)}>Delete</button></td>
         </tr>
     )
 }

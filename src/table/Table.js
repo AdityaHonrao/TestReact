@@ -99,7 +99,7 @@ export default function Table(props){
             method: 'POST',
             body: JSON.stringify({
                 'id':student.id,
-                'name': updateStudentFormData.studentName,
+                'name': (updateStudentFormData.studentName.length===0)?student.name:updateStudentFormData.studentName,
                 'college': {
                     'id':updateStudentFormData.collegeId
                 }
@@ -119,6 +119,20 @@ export default function Table(props){
                 document.getElementById("CollegeName").value = ""
                 updateData()
             });
+    }
+
+    const handleStudentDelete = (event, student)=>{
+        console.log("Updated")
+        fetch(`http://localhost:8080/deleteStudent?id=${student.id}`)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    setIsLoaded(true)
+                    setItems(result)
+                }
+            )
+
+        updateData()
     }
 
     const handleCollegeFormData = (event) => {
@@ -197,6 +211,18 @@ export default function Table(props){
             });
     }
 
+    const handleCollegeDelete = (event, college)=>{
+        fetch(`http://localhost:8080/deleteCollege?id=${college.id}`)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    setCollegesLoaded(true)
+                    setColleges(result)
+                }
+            )
+        updateData()
+    }
+
     function updateData(){
         setEditStudentId(null)
         setEditCollegeId(null)
@@ -272,8 +298,9 @@ export default function Table(props){
                         {items.map(item => (
                             <Fragment>
                                 {editStudentId=== item.id?
-                                    <EditableStudentRow student = {item} colleges={colleges} onSave={handleStudentUpdate} change={handleUpdateStudentFormData}/>:
-                                    <ReadOnlyStudentRow student={item} handleEditClick={handleEditStudentId}/>}
+                                    <EditableStudentRow student = {item} colleges={colleges} onSave={handleStudentUpdate}
+                                                        change={handleUpdateStudentFormData} onDelete={handleStudentDelete}/>:
+                                    <ReadOnlyStudentRow student={item} handleEditClick={handleEditStudentId} onDelete={handleStudentDelete}/>}
                             </Fragment>
                         ))}
                         </tbody>
@@ -314,8 +341,8 @@ export default function Table(props){
                             items.map(item => (
                                 <Fragment>
                                     {editCollegeId=== item.id?
-                                        <EditableCollegeRow college={item} onSave={handleCollegeUpdate} change={handleUpdateCollegeFormData}/>:
-                                        <ReadOnlyCollegeRow college={item} handleEditClick={handleEditCollegeId}/>}
+                                        <EditableCollegeRow college={item} onSave={handleCollegeUpdate} change={handleUpdateCollegeFormData} onDelete={handleCollegeDelete}/>:
+                                        <ReadOnlyCollegeRow college={item} handleEditClick={handleEditCollegeId} onDelete={handleCollegeDelete}/>}
                                 </Fragment>
                         ))}
                         </tbody>
