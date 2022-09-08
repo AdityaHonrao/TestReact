@@ -48,7 +48,7 @@ export default function Table(props){
 
     const handleAddStudentData = (event) => {
         event.preventDefault()
-        fetch("http://localhost:8080/addStudent",{
+        fetch("http://34.100.239.161:8080/addStudent",{
             method: 'POST',
             body: JSON.stringify({
                 'name': addStudentFormData.studentName,
@@ -95,13 +95,13 @@ export default function Table(props){
     }
 
     const handleStudentUpdate = (event, student)=>{
-        fetch("http://localhost:8080/updateStudent",{
+        fetch("http://34.100.239.161:8080/updateStudent",{
             method: 'POST',
             body: JSON.stringify({
                 'id':student.id,
                 'name': (updateStudentFormData.studentName.length===0)?student.name:updateStudentFormData.studentName,
                 'college': {
-                    'id':updateStudentFormData.collegeId
+                    'id':(updateStudentFormData.collegeId.length===0)?student.college.id:updateStudentFormData.collegeId
                 }
             }),
             headers: {
@@ -123,7 +123,7 @@ export default function Table(props){
 
     const handleStudentDelete = (event, student)=>{
         console.log("Updated")
-        fetch(`http://localhost:8080/deleteStudent?id=${student.id}`)
+        fetch(`http://34.100.239.161:8080/deleteStudent?id=${student.id}`)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -146,7 +146,7 @@ export default function Table(props){
 
     const handleAddCollegeData = (event) => {
         event.preventDefault()
-        fetch("http://localhost:8080/addCollege",{
+        fetch("http://34.100.239.161:8080/addCollege",{
             method: 'POST',
             body: JSON.stringify({
                 'collegeName': addCollegeFormData.collegeName
@@ -188,7 +188,7 @@ export default function Table(props){
     }
 
     const handleCollegeUpdate = (event, college)=>{
-        fetch("http://localhost:8080/updateCollege",{
+        fetch("http://34.100.239.161:8080/updateCollege",{
             method: 'POST',
             body: JSON.stringify({
                 'id':college.id,
@@ -212,7 +212,7 @@ export default function Table(props){
     }
 
     const handleCollegeDelete = (event, college)=>{
-        fetch(`http://localhost:8080/deleteCollege?id=${college.id}`)
+        fetch(`http://34.100.239.161:8080/deleteCollege?id=${college.id}`)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -227,7 +227,7 @@ export default function Table(props){
         setEditStudentId(null)
         setEditCollegeId(null)
         console.log("Updated")
-        fetch("http://localhost:8080/getColleges")
+        fetch("http://34.100.239.161:8080/getColleges")
             .then(res => res.json())
             .then(
                 (result) => {
@@ -236,7 +236,7 @@ export default function Table(props){
                 }
             )
 
-        const Url = (props.contents==="Students")?"http://localhost:8080/getStudents":"http://localhost:8080/getColleges";
+        const Url = (props.contents==="Students")?"http://34.100.239.161:8080/getStudents":"http://34.100.239.161:8080/getColleges";
         fetch(Url)
             .then(res => res.json())
             .then(
@@ -252,7 +252,7 @@ export default function Table(props){
     }
 
     useEffect(()=> {
-        fetch("http://localhost:8080/getColleges")
+        fetch("http://34.100.239.161:8080/getColleges")
             .then(res => res.json())
             .then(
                 (result) => {
@@ -261,7 +261,7 @@ export default function Table(props){
                 }
             )
 
-        const Url = (props.contents==="Students")?"http://localhost:8080/getStudents":"http://localhost:8080/getColleges";
+        const Url = (props.contents==="Students")?"http://34.100.239.161:8080/getStudents":"http://34.100.239.161:8080/getColleges";
         fetch(Url)
             .then(res => res.json())
             .then(
