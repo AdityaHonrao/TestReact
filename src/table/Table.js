@@ -10,7 +10,7 @@ export default function Table(props){
     const [colleges, setColleges] = useState([]);
     const [addStudentFormData, setAddStudentFormData] = useState({
         studentName: "",
-        collegeId:""
+        collegeId: ""
         }
     )
     const [addCollegeFormData, setAddCollegeFormData] = useState({
@@ -27,7 +27,8 @@ export default function Table(props){
 
         const newStudentFormData = { ...addStudentFormData}
         newStudentFormData[fieldName] = fieldValue
-        setAddStudentFormData(addStudentFormData)
+        setAddStudentFormData(newStudentFormData)
+        console.log(addStudentFormData)
     }
 
     const handleAddStudentData = (event) => {
@@ -36,20 +37,29 @@ export default function Table(props){
             method: 'POST',
             body: JSON.stringify({
                 'name': addStudentFormData.studentName,
-                'college': addStudentFormData.collegeId
+                'college': {
+                    'id':addStudentFormData.collegeId
+                }
             }),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             },
         })
-            .then((response) => response.json())
             .then((data) => {
                 console.log(data);
+                document.getElementById("CollegeName").value = ""
+                document.getElementById("StudentCollege").value = ""
+                updateData()
                 // Handle data
+
             })
             .catch((err) => {
                 console.log(err.message);
+                document.getElementById("CollegeName").value = ""
+                document.getElementById("StudentCollege").value = ""
+                updateData()
             });
+
     }
 
     const handleCollegeFormData = (event) => {
@@ -72,16 +82,18 @@ export default function Table(props){
                 'Content-type': 'application/json; charset=UTF-8',
             },
         })
-            .then((response) => response.json())
             .then((data) => {
                 console.log(data);
                 // Handle data
+                document.getElementById("CollegeName").value = ""
+                updateData()
             })
             .catch((err) => {
                 console.log(err.message);
-                document.getElementsByName("collegeName").value = ""
+                document.getElementById("CollegeName").value = ""
                 updateData()
             });
+
 
     }
 
@@ -167,9 +179,12 @@ export default function Table(props){
                     </table>
                     <h2>Add Student Data</h2>
                     <form onSubmit={handleAddStudentData}>
-                        <input type="text" name="studentName" required="required" placeholder="Enter Student Name"
+                        <input type="text" name="studentName" id="StudentName" required="required" placeholder="Enter Student Name"
                                onChange={handleStudentFormData}/>
-                        <select name="collegeId" required="required" onChange={handleStudentFormData}>
+
+                        <select name="collegeId" required="required" id="StudentCollege" placeholder="Select College"
+                                onChange={handleStudentFormData}>
+                            <option value="">Select your college</option>
                             {colleges.map(item => (
                                 <option value={item.id}>{item.collegeName}</option>
                             ))}
@@ -201,7 +216,7 @@ export default function Table(props){
                     </table>
 
                     <form onSubmit={handleAddCollegeData}>
-                        <input type="text" name="collegeName" required="required" placeholder="Enter College Name"
+                        <input type="text" name="collegeName" id="CollegeName" required="required" placeholder="Enter College Name"
                                onChange={handleCollegeFormData}/>
                         <button type="submit">Add College</button>
                     </form>
