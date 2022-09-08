@@ -33,10 +33,6 @@
   font-size: calc(5px + 2vmin);
 }
 
-.Table-row{
-  display: flex;
-  flex-direction: row;
-}
 .App-link {
   color: #61dafb;
 }
